@@ -10,6 +10,9 @@ class Engineer {
     getGithub() {
         return this.github;
     }
+    getRole() {
+        return "Engineer";
+    }
 }
 
 module.exports = Engineer;
