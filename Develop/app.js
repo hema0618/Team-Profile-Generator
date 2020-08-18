@@ -14,89 +14,119 @@ const render = require("./lib/htmlRenderer");
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
+const team = [];
+//function to create a team 
+function createTeam() {
+    inquirer.prompt([
+        {
+            type: "list",
+            choices: ["Yes", "No"],
+            message: "Would you like to add more team members?",
+            name: "addmore",
 
-inquirer.prompt([
-    {
-        type: "list",
-        choices: ["Manager", "Engineer", "Intern"],
-        message:"What is your role in the company?",
-        name: "position",
-    },
-    {
-        type: "input",
-        message:"What is your full name?",
-        name: "name",
-    },
-    {
-        type: "input",
-        message:"What is your ID number?",
-        name: "id",
-    },
-    {
-        type: "input",
-        message:"What is your email address?",
-        name: "email",
-    },
-]).then(function(response){
-    this.position = response.position;
-    this.name = response.name;
-    this.id = response.id;
-    this.email = response.email;
-    if (this.position === "Manager") {
-        inquirer.prompt([
-            {
-                type: "input",
-                message: "What is your office number?",
-                name: "officeNumber",
-            }
-        ]).then(function(response) {
-            fs.appendFile("main.html", new Manager(response), function(error){
-                if (error) {
-                    console.log(error);
-                    return;
+        }])
+        .then(function (response) {
+            this.response = response.addmore;
+            if (this.response === "Yes") {
+                return askQuestions();
+            } else {
+                if (!fs.existsSync(OUTPUT_DIR)) {
+                    fs.mkdirSync(OUTPUT_DIR);
                 }
-                console.log("Success! The team has a manager.");
-            }) 
-        })
-    } else if (this.position === "Engineer") {
-        inquirer.prompt([
-            {
-                type: "input",
-                message: "What is your GitHub account name?",
-                name: "GitHub",
+                fs.writeFile(outputPath, render(team), "utf8", function (error) {
+                    if (error) {
+                        console.log(error);
+                        return;
+                    }
+                });
+
+                return console.log("HTML has succesfully been created!");
             }
-        ]).then(function(response) {
-            fs.appendFile("engineer.html", new Engineer(response), function(error){
-                if (error) {
-                    console.log(error);
-                    return;
-                }
-                console.log("Success! Added an Engineer to the team.");
-            }) 
-        })
-    } else if (this.position === "intern") {
-        inquirer.prompt([
-            {
-                type: "input",
-                message: "What is your GitHub account name?",
-                name: "GitHub",
-            }
-        ]).then(function(response) {
-            fs.appendFile("intern.html", Intern(response), function(error){
-                if (error) {
-                    console.log(error);
-                    return;
-                }
-                console.log("Success! Added an intern to the team.");
-            }) 
-        }) 
+        });
     }
+            }
+            inquirer.prompt([
+                {
+                    type: "list",
+                    choices: ["Manager", "Engineer", "Intern"],
+                    message: "What is your role in the company?",
+                    name: "position",
+                },
+                {
+                    type: "input",
+                    message: "What is your full name?",
+                    name: "name",
+                },
+                {
+                    type: "input",
+                    message: "What is your ID number?",
+                    name: "id",
+                },
+                {
+                    type: "input",
+                    message: "What is your email address?",
+                    name: "email",
+                },
+            ]).then(function (response) {
+                this.position = response.position;
+                this.name = response.name;
+                this.id = response.id;
+                this.email = response.email;
+                if (this.position === "Manager") {
+                    inquirer.prompt([
+                        {
+                            type: "input",
+                            message: "What is your office number?",
+                            name: "officeNumber",
+                        }
+                    ]).then(function (response) {
+                        fs.appendFile("main.html", new Manager(response), function (error) {
+                            if (error) {
+                                console.log(error);
+                                return;
+                            }
+                            console.log("Success! The team has a manager.");
+                        })
+                    })
+                } else if (this.position === "Engineer") {
+                    inquirer.prompt([
+                        {
+                            type: "input",
+                            message: "What is your GitHub account name?",
+                            name: "GitHub",
+                        }
+                    ]).then(function (response) {
+                        fs.appendFile("engineer.html", new Engineer(response), function (error) {
+                            if (error) {
+                                console.log(error);
+                                return;
+                            }
+                            console.log("Success! Added an Engineer to the team.");
+                        })
+                    })
+                } else if (this.position === "intern") {
+                    inquirer.prompt([
+                        {
+                            type: "input",
+                            message: "What is your GitHub account name?",
+                            name: "GitHub",
+                        }
+                    ]).then(function (response) {
+                        fs.appendFile("intern.html", Intern(response), function (error) {
+                            if (error) {
+                                console.log(error);
+                                return;
+                            }
+                            console.log("Success! Added an intern to the team.");
+                        })
+                    })
+                }
 
-})
+            })
 
 
-    
-    const newEmployee = new Employee(response);
+
+            const newEmployee = new Employee(response);
 
 
 
