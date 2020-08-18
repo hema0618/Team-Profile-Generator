@@ -2,8 +2,10 @@
 const Employee = require("./Employee");
 
 class Engineer {
-    constructor(github) {
-        super(name,id,email,github);
+    constructor(name,id,email,github) {
+
+        super(name,id,email);
+        
         this.github = github;
     }
     

@@ -16,7 +16,7 @@ const render = require("./lib/htmlRenderer");
 
 const team = [];
 //function to create a team 
-function createTeam() {
+function addMore() {
     inquirer.prompt([
         {
             type: "list",
